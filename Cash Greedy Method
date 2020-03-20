@@ -1,0 +1,23 @@
+#include <cs50.h>
+#include <stdio.h>
+#include <math.h>
+
+
+int main(void)
+{
+    float change = get_float("Change owed:");
+    while (change <= 0)
+    {
+        change = get_float("Change owed:");
+    } 
+    int c = round(change * 100);
+    int qtr = c / 25 ;
+    int rem = c % 25 ;
+    int d = (rem) / 10 ;
+    int rem1 = c - (qtr * 25) - (d * 10);
+    int n = (rem1) / 5 ;
+    int rem2 = c - (qtr * 25) - (d * 10) - (n * 5);
+    int p = (rem2 / 1);          
+    int totcoins = qtr + d + n + p;
+    printf("%i", totcoins);
+}
