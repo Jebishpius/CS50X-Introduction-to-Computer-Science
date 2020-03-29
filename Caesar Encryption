@@ -1,0 +1,40 @@
+#include <cs50.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+    if (argc > 2 || argc == 1)
+    {
+        printf("\nUsage: ./caesar key\n");
+        return 1;
+    }
+    if (isalpha(argv[1][1])) 
+    {
+        printf("\nUsage: ./caesar key\n");
+        return 1;
+    }
+    string k = get_string("plaintext:");
+    char c ;
+    printf("ciphertext: ");
+    for (int i = 0; k[i] != '\0'; i++)
+    {
+        if (k[i] >= 'A' && k[i] <= 'Z') 
+        {
+            c = (k[i] + atoi(argv[1]) - 65) % 26 + 65;
+        }
+        else if (k[i] >= 'a' && k[i] <= 'z')
+        {
+            c = (k[i] + atoi(argv[1]) - 97) % 26 + 97;
+        }
+        else
+        {
+            c = k[i];
+        }
+        printf("%c", c);
+    }
+    printf("\n");
+}
