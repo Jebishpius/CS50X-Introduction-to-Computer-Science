@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+#include <cs50.h>
+
+int main(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
+        printf("Enter one command line argument\n");
+        return 1;
+    }
+    FILE *file = fopen(argv[1], "r");
+
+    unsigned char bytes[512];
+    int jpeg = 0;
+    int counter = 0;
+    char fname[8];
+    FILE *img = NULL ;
+
+    fread(bytes, 512, 1, file);
+    while (fread(bytes, 512, 1, file) > 0)
+    { 
+        if (bytes[0] == 0xff && bytes[1] == 0xd8 && bytes[2] == 0xff && (bytes[3] & 0xf0) == 0xe0)
+        { 
+            if (jpeg == 0)
+            {
+                sprintf(fname, "%03i.jpg", counter);
+                img = fopen(fname, "a");
+                jpeg = 1;
+            }
+            else
+            {
+                fclose(img);
+                counter ++;
+                sprintf(fname, "%03i.jpg", counter);
+                img = fopen(fname, "a");
+
+            }
+        }
+        if (jpeg == 1)
+        {
+            fwrite(&bytes, 512, 1, img);
+        }
+
+    }
+    fclose(img);
+    fclose(file);
+}
